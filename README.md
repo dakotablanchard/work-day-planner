@@ -15,4 +15,6 @@ https://stackoverflow.com/questions/41597213/comparing-current-time-with-input-t
 
 https://stackoverflow.com/questions/69085408/how-to-change-the-class-name-of-an-element-using-javascript
 
+https://stackoverflow.com/questions/8779845/javascript-setinterval-not-working
+
 NOTE: Credit starter code, and all APIs

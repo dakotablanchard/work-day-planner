@@ -1,10 +1,16 @@
-
+// Wrapping everything in a call to jquery so that the page renders first:
 $(function () {
 
   var today = new Date() // Getting the current date and time and storing it in to a variable
-  var currentDayEl = $("#currentDay") // Selecting the element that will display date and time
-  currentDayEl.text(today) // Setting the elements text content to the current date and time
 
+  setInterval(function displayTime() { // setInterval() will run a function repeatedly at whatever rate we pass.
+    var time = dayjs().format("MMM D, YYYY h:mm:ss") // Here we're getting the current date/time from dayjs() and formatting it,
+    $("#current-day").text(time) // then here we are setting the text value to the element containing the current-day ID.
+  }, 1000) // The 1000 is 1000 milliseconds (1 second). This means the text content gets updated ever second, updating the new current time.
+
+
+  // The following variables grab the HTML of each time block container. These will be used in the checkTime() function
+  // so that we can change the class and alter the CSS depending on what time it is.
   var hour9 = document.getElementById("hour-9")
   var hour10 = document.getElementById("hour-10")
   var hour11 = document.getElementById("hour-11")
@@ -15,7 +21,7 @@ $(function () {
   var hour4 = document.getElementById("hour-16")
   var hour5 = document.getElementById("hour-17")
 
-  // Variable getting the current live hour
+  // Variable getting the current live hour as an integer
   var hour = today.getHours()
 
   // Checks live time and applys styling according to the current time:
@@ -149,6 +155,8 @@ $(function () {
 
   checkTime() // Calling the above function
 
+  // The following variables grab the HTML of the text area in each time block. These will be used 
+  // to retrieve the users inputed text to local storage.
   var text9 = document.querySelector(".textarea-9")
   var text10 = document.querySelector(".textarea-10")
   var text11 = document.querySelector(".textarea-11")
@@ -159,12 +167,20 @@ $(function () {
   var text4 = document.querySelector(".textarea-4")
   var text5 = document.querySelector(".textarea-5")
 
+  // The following block of code targets the class saveBtn which every save button has.
+  // On click, a function is called to take the value of the text box (user input) from the container that was clicked, and store it into a variable called valueEl.
+  // We also take the name of the ID of the parent container, and store that into a variable called time.
+  // Lastly, the function calls local storage to save something. We set the key to the variable "time" (parent ID name) 
+  // and the value to the variable "valueEl" (user input from text area).
   $(".saveBtn").on("click", function(){
     var valueEl = $(this).siblings(".description").val();
     var time = $(this).parent().attr("id")
     localStorage.setItem(time, valueEl)
   })
 
+  // Here we are setting the text content of the text areas to their corresponding key-value pair from local storage.
+  // This ensures that when the page is refreshed, the content remains and will remain until the user updates the content of the text area
+  // and hits the save button again.
   text9.innerHTML = localStorage.getItem("hour-9")
   text10.innerHTML = localStorage.getItem("hour-10")
   text11.innerHTML = localStorage.getItem("hour-11")
